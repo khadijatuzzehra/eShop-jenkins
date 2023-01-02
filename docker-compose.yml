@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: homestead
+      MYSQL_DATABASE: homestead
+      MYSQL_USER: homestead
+      MYSQL_PASSWORD: homestead
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    deploy:
+        resources:
+            limits:
+              cpus: 0.5
+              memory: 450M
+
+  app:
+    container_name: php
+    #command: bash -c "php artisan serve --host=0.0.0.0 --port=8181"
+    command: bash -c "php artisan migrate && php artisan db:seed && php artisan serve --hos>
+    image: khadijatuzzehra/eshop:latest
+    ports:
+      - "8181:8181"
+    deploy:
+        resources:
+            limits:
+              cpus: 0.5
+              memory: 200M
